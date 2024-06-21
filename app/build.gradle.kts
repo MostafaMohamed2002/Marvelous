@@ -4,6 +4,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
     alias(libs.plugins.compose.compiler)
+    alias(libs.plugins.hilt.gradle.plugin)
     kotlin("kapt")
 }
 // Load properties from local.properties file
@@ -14,7 +15,8 @@ val localProperties = Properties().apply {
     }
 }
 
-val apiKey: String = localProperties.getProperty("api_key") ?: ""
+val publicApiKey: String = localProperties.getProperty("public_api_key") ?: ""
+val privateApiKey: String = localProperties.getProperty("private_api_key") ?: ""
 
 android {
     namespace = "com.mostafadevo.marvelous"
@@ -31,7 +33,8 @@ android {
         vectorDrawables {
             useSupportLibrary = true
         }
-        buildConfigField("String", "API_KEY", "\"$apiKey\"")
+        buildConfigField("String", "PUBLIC_API_KEY", "\"$publicApiKey\"")
+        buildConfigField("String", "PRIVATE_API_KEY", "\"$privateApiKey\"")
     }
     buildFeatures {
         buildConfig = true
@@ -75,6 +78,9 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
+    implementation(libs.androidx.runtime.livedata)
+    implementation(libs.androidx.room.ktx)
+    implementation(libs.androidx.lifecycle.runtime.compose.android)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -104,7 +110,9 @@ dependencies {
 
     //lifecycle
     implementation(libs.androidx.lifecycle.viewmodel.compose)
-
     //coil
     implementation(libs.coil.compose)
+}
+kapt {
+    correctErrorTypes =true
 }
