@@ -112,6 +112,13 @@ dependencies {
     implementation(libs.androidx.lifecycle.viewmodel.compose)
     //coil
     implementation(libs.coil.compose)
+    //animation
+    implementation(libs.androidx.animation)
+    implementation(libs.androidx.navigation.compose)
+    //moshi
+    implementation(libs.moshi)
+    implementation(libs.moshi.kotlin)
+
 }
 kapt {
     correctErrorTypes =true

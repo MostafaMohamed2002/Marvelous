@@ -1,6 +1,7 @@
 package com.mostafadevo.marvelous.domain
 
 import android.util.Log
+import com.mostafadevo.marvelous.Utils.toEntity
 import com.mostafadevo.marvelous.data.local.CharacterEntity
 import com.mostafadevo.marvelous.data.local.MarvelDao
 import com.mostafadevo.marvelous.data.remote.MarvelApi
@@ -26,12 +27,7 @@ class MarvelRepository @Inject constructor(
             if (response.isSuccessful) {
                 response.body()?.data?.charactersDTOS?.let { charactersDto ->
                     val characterEntities = charactersDto.map { dto ->
-                        CharacterEntity(
-                            id = dto.id,
-                            name = dto.name,
-                            description = dto.description,
-                            thumbnail = "${dto.thumbnail.path}.${dto.thumbnail.extension}"
-                        )
+                        dto.toEntity()
                     }
                     dao.insertAll(characterEntities)
                     emit(characterEntities)
